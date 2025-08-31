@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="bg_gradient_top">#0B163F</color>
+    <color name="bg_gradient_bottom">#102D5C</color>
+    <color name="card_beige">#FFF6E9</color>
+    <color name="card_mint">#EEF9F1</color>
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_secondary">#B0B9D0</color>
+    <color name="text_black">#000000</color>
+    <color name="text_blue">#006CFF</color>
+    <color name="filter_border">#33000000</color>
+    <color name="fab_blue">#1381FF</color>
+    <color name="light_grey">#D6CDCB</color>
+    <color name="light_black">#918E8D</color>
+
+
+</resources>
