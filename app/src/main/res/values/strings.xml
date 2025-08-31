@@ -35,7 +35,7 @@
     <string name="select_fuel_title">Select Fuel Type</string>
 
     <string name="error_fill_all_fields">Please fill all required fields</string>
-    <string name="vehicle_added_success">Vehicle added successfully!</string>
+    <string name="vehicle_added_success">Vehicle added successfully! 🎉</string>
     <string name="vehicle_add_failed">Failed to add vehicle!</string>
 
 </resources>

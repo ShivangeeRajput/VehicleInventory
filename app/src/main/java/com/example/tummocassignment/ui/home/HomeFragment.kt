@@ -63,6 +63,7 @@ class HomeFragment : Fragment() {
                     binding.tvTotalVehicles.text = filteredVehicles.size.toString()
                     val totalEv = filteredVehicles.count { it.fuelType.equals("Electric", true) }
                     binding.tvTotalEv.text = totalEv.toString()
+                    binding.NoVehicles.visibility = if(filteredVehicles.isEmpty()) View.VISIBLE else View.GONE
                     binding.tvNoVehiclesFound.visibility = if(filteredVehicles.isEmpty()) View.VISIBLE else View.GONE
                 }
             )

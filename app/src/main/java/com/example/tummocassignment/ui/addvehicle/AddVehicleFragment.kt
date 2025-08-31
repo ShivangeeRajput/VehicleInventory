@@ -1,10 +1,12 @@
 package com.example.tummocassignment.ui.addvehicle
 
 import android.os.Bundle
+import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.tummocassignment.R
@@ -27,7 +29,6 @@ class AddVehicleFragment : Fragment() {
     @Inject
     lateinit var vehicleRepository: VehicleRepository
 
-    // Initialize lazily to safely use getString()
     private val brands by lazy {
         listOf(
             OptionAdapter.OptionItem(getString(R.string.brand_tata), R.drawable.ic_tata),
@@ -72,8 +73,24 @@ class AddVehicleFragment : Fragment() {
 
         setupDropdowns()
         setupDropdownIcons()
+        binding.inputVehicleNumber.filters = arrayOf<InputFilter>(InputFilter.AllCaps())
+        setupInputValidation()
+        updateButtonState()
 
-        binding.btnAddVehicle.setOnClickListener { saveVehicle() }
+        binding.btnAddVehicle.setOnClickListener {
+            val brand = binding.dropdownBrand.text.toString().trim()
+            val model = binding.dropdownModel.text.toString().trim()
+            val fuelType = binding.dropdownFuelType.text.toString().trim()
+            val number = binding.inputVehicleNumber.text.toString().trim()
+            val yearText = binding.dropdownYear.text.toString().trim()
+
+            if (brand.isEmpty() || model.isEmpty() || fuelType.isEmpty() || number.isEmpty() || yearText.isEmpty()) {
+                Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            saveVehicle()
+        }
 
         binding.ivBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
@@ -99,6 +116,7 @@ class AddVehicleFragment : Fragment() {
         ) { selected ->
             binding.dropdownBrand.setText(selected)
             binding.brandInputLayout.isHintAnimationEnabled = true
+            updateButtonState()
         }.show(parentFragmentManager, "brandSheet")
     }
 
@@ -109,6 +127,7 @@ class AddVehicleFragment : Fragment() {
         ) { selected ->
             binding.dropdownModel.setText(selected)
             binding.modelInputLayout.isHintAnimationEnabled = true
+            updateButtonState()
         }.show(parentFragmentManager, "modelSheet")
     }
 
@@ -119,6 +138,7 @@ class AddVehicleFragment : Fragment() {
         ) { selected ->
             binding.dropdownFuelType.setText(selected)
             binding.fuelInputLayout.isHintAnimationEnabled = true
+            updateButtonState()
         }.show(parentFragmentManager, "fuelTypeSheet")
     }
 
@@ -155,6 +175,36 @@ class AddVehicleFragment : Fragment() {
             } else {
                 Toast.makeText(requireContext(), getString(R.string.vehicle_add_failed), Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun setupInputValidation() {
+        val textWatcher = { _: CharSequence?, _: Int, _: Int, _: Int -> updateButtonState() }
+
+        binding.inputVehicleNumber.doOnTextChanged(textWatcher)
+        binding.inputOwnerName.doOnTextChanged(textWatcher)
+        binding.dropdownYear.doOnTextChanged(textWatcher)
+        binding.dropdownBrand.doOnTextChanged(textWatcher)
+        binding.dropdownModel.doOnTextChanged(textWatcher)
+        binding.dropdownFuelType.doOnTextChanged(textWatcher)
+    }
+
+    private fun updateButtonState() {
+        val brand = binding.dropdownBrand.text.toString().trim()
+        val model = binding.dropdownModel.text.toString().trim()
+        val fuelType = binding.dropdownFuelType.text.toString().trim()
+        val number = binding.inputVehicleNumber.text.toString().trim()
+        val year = binding.dropdownYear.text.toString().trim()
+
+        val enabled = brand.isNotEmpty() && model.isNotEmpty() && fuelType.isNotEmpty()
+                && number.isNotEmpty() && year.isNotEmpty()
+
+        binding.btnAddVehicle.isEnabled = enabled
+
+        if (enabled) {
+            binding.btnAddVehicle.setBackgroundResource(R.drawable.bg_btn_enabled)
+        } else {
+            binding.btnAddVehicle.setBackgroundResource(R.drawable.bg_btn_disabled)
         }
     }
 

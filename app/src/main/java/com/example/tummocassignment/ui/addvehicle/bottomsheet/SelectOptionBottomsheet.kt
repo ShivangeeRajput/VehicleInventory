@@ -53,6 +53,7 @@ class SelectOptionBottomSheet(
         }
 
         binding.tvTitle.text = title
+        binding.ivCloseFilter.setOnClickListener { dismiss() }
 
         val adapter = OptionAdapter(options) { selected ->
             selectedOption = selected.name

@@ -161,9 +161,10 @@
                     android:id="@+id/inputVehicleNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAllCaps="true"
                     android:hint="Enter vehicle number (e.g., MH 12 AB 1234)"
-                    android:fontFamily="@font/satoshi_regular"/>
+                    android:fontFamily="@font/satoshi_regular"
+                    android:inputType="textCapCharacters"
+                    android:imeOptions="actionDone"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -220,6 +221,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter owner's full name"
+                    android:inputType="text"
                     android:fontFamily="@font/satoshi_regular"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -237,7 +239,7 @@
         android:fontFamily="@font/satoshi_bold"
         android:textColor="@android:color/white"
         android:textAllCaps="false"
-        android:background="@drawable/rounded_button"
+        android:background="@drawable/bg_btn_disabled"
         android:elevation="4dp"
         app:backgroundTint="@null"
         app:strokeWidth="0dp"/>

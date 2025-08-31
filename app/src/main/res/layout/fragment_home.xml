@@ -253,6 +253,17 @@
                 android:gravity="center"
                 android:visibility="gone"
                 android:fontFamily="@font/satoshi_medium"/>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/NoVehicles"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:lottie_rawRes="@raw/no_vehicles"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                android:layout_gravity="center"/>
+
         </LinearLayout>
     </LinearLayout>
 

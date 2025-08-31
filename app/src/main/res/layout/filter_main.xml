@@ -6,16 +6,33 @@
     android:background="@drawable/bg_bottomsheet_rounded"
     android:padding="20dp">
 
-
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Filter"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:layout_marginBottom="20dp"
-        android:fontFamily="@font/satoshi_bold" />
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvFilterTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filter"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:fontFamily="@font/satoshi_bold"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true" />
+
+        <ImageView
+            android:id="@+id/ivCloseFilter"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_close"
+            android:contentDescription="Close"
+            android:clickable="true"
+            android:focusable="true"/>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/brandOption"
@@ -33,7 +50,6 @@
             android:textSize="16sp"
             android:textColor="@android:color/black"
             android:fontFamily="@font/satoshi_medium" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -52,7 +68,6 @@
             android:textSize="16sp"
             android:textColor="@android:color/black"
             android:fontFamily="@font/satoshi_medium" />
-
     </LinearLayout>
 
 </LinearLayout>

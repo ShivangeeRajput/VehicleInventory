@@ -6,103 +6,106 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.LinearLayout
+import android.widget.Toast
 import com.example.tummocassignment.R
+import com.example.tummocassignment.databinding.FilterBrandBinding
+import com.example.tummocassignment.databinding.FilterFueltypeBinding
+import com.example.tummocassignment.databinding.FilterMainBinding
 import com.example.tummocassignment.domain.model.Vehicle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FilterBottomSheet(
     private val vehicles: List<Vehicle>,
     private val onFiltered: (List<Vehicle>) -> Unit
 ) : BottomSheetDialogFragment() {
 
-    private var currentView: View? = null
+    private var _binding: FilterMainBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.filter_main, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        _binding = FilterMainBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.BottomSheetDialog)
-        currentView = view
 
-        view.findViewById<LinearLayout>(R.id.brandOption).setOnClickListener {
-            showBrandSelection()
-        }
-
-        view.findViewById<LinearLayout>(R.id.fuelTypeOption).setOnClickListener {
-            showFuelTypeSelection()
-        }
+        binding.brandOption.setOnClickListener { showBrandSelection() }
+        binding.fuelTypeOption.setOnClickListener { showFuelTypeSelection() }
+        binding.ivCloseFilter.setOnClickListener { dismiss() }
     }
 
     private fun showBrandSelection() {
-        val brandView = layoutInflater.inflate(R.layout.filter_brand, null)
-        val container = dialog?.findViewById<ViewGroup>(com.google.android.material.R.id.design_bottom_sheet)
-        container?.removeAllViews()
-        container?.addView(brandView)
+        val brandViewBinding = FilterBrandBinding.inflate(layoutInflater)
+        val container = binding.root.parent as ViewGroup
+        container.removeAllViews()
+        container.addView(brandViewBinding.root)
 
-        val cbTata = brandView.findViewById<CheckBox>(R.id.cbTata)
-        val cbHonda = brandView.findViewById<CheckBox>(R.id.cbHonda)
-        val cbHero = brandView.findViewById<CheckBox>(R.id.cbHero)
-        val cbBajaj = brandView.findViewById<CheckBox>(R.id.cbBajaj)
-        val cbYamaha = brandView.findViewById<CheckBox>(R.id.cbYamaha)
-        val cbOther = brandView.findViewById<CheckBox>(R.id.cbOther)
+        val checkBoxes = listOf(
+            brandViewBinding.cbTata to getString(R.string.brand_tata),
+            brandViewBinding.cbHonda to getString(R.string.brand_honda),
+            brandViewBinding.cbHero to getString(R.string.brand_hero),
+            brandViewBinding.cbBajaj to getString(R.string.brand_bajaj),
+            brandViewBinding.cbYamaha to getString(R.string.brand_yamaha),
+            brandViewBinding.cbOther to getString(R.string.brand_other),
+        )
 
-        brandView.findViewById<MaterialButton>(R.id.btnClearBrand).setOnClickListener {
-            cbTata.isChecked = false
-            cbHonda.isChecked = false
-            cbHero.isChecked = false
-            cbBajaj.isChecked = false
-            cbYamaha.isChecked = false
-            cbOther.isChecked = false
+        brandViewBinding.btnClearBrand.setOnClickListener {
+            checkBoxes.forEach { it.first.isChecked = false }
         }
 
-        brandView.findViewById<MaterialButton>(R.id.btnApplyBrand).setOnClickListener {
-            val selectedBrands = mutableListOf<String>()
-            if(cbTata.isChecked) selectedBrands.add(getString(R.string.brand_tata))
-            if(cbHonda.isChecked) selectedBrands.add(getString(R.string.brand_honda))
-            if(cbHero.isChecked) selectedBrands.add(getString(R.string.brand_hero))
-            if(cbBajaj.isChecked) selectedBrands.add(getString(R.string.brand_bajaj))
-            if(cbYamaha.isChecked) selectedBrands.add(getString(R.string.brand_yamaha))
-            if(cbOther.isChecked) selectedBrands.add(getString(R.string.brand_other))
-
-            val filtered = if(selectedBrands.isEmpty()) vehicles else vehicles.filter { it.brand in selectedBrands }
+        brandViewBinding.btnApplyBrand.setOnClickListener {
+            val selectedBrands = checkBoxes.filter { it.first.isChecked }.map { it.second }
+            if (selectedBrands.isEmpty()) {
+                Toast.makeText(requireContext(), "Please select at least 1 brand", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val filtered = vehicles.filter { it.brand in selectedBrands }
             onFiltered(filtered)
             dismiss()
         }
     }
 
     private fun showFuelTypeSelection() {
-        val fuelView = layoutInflater.inflate(R.layout.filter_fueltype, null)
-        val container = dialog?.findViewById<ViewGroup>(com.google.android.material.R.id.design_bottom_sheet)
+        val fuelViewBinding = FilterFueltypeBinding.inflate(layoutInflater)
+        val container = binding.root.parent as ViewGroup
+        container.removeAllViews()
+        container.addView(fuelViewBinding.root)
 
-        container?.removeAllViews()
-        container?.addView(fuelView)
+        val checkBoxes = listOf(
+            fuelViewBinding.cbPetrol to getString(R.string.fuel_petrol),
+            fuelViewBinding.cbElectric to getString(R.string.fuel_electric),
+            fuelViewBinding.cbDiesel to getString(R.string.fuel_diesel),
+            fuelViewBinding.cbCNG to getString(R.string.fuel_cng)
+        )
 
-        val cbPetrol = fuelView.findViewById<CheckBox>(R.id.cbPetrol)
-        val cbElectric = fuelView.findViewById<CheckBox>(R.id.cbElectric)
-        val cbDiesel = fuelView.findViewById<CheckBox>(R.id.cbDiesel)
-        val cbCNG = fuelView.findViewById<CheckBox>(R.id.cbCNG)
-
-        fuelView.findViewById<MaterialButton>(R.id.btnClearFuelType).setOnClickListener {
-            cbPetrol.isChecked = false
-            cbElectric.isChecked = false
-            cbDiesel.isChecked = false
-            cbCNG.isChecked = false
+        fuelViewBinding.btnClearFuelType.setOnClickListener {
+            checkBoxes.forEach { it.first.isChecked = false }
         }
 
-        fuelView.findViewById<MaterialButton>(R.id.btnApplyFuelType).setOnClickListener {
-            val selectedFuel = mutableListOf<String>()
-            if(cbPetrol.isChecked) selectedFuel.add(getString(R.string.fuel_petrol))
-            if(cbElectric.isChecked) selectedFuel.add(getString(R.string.fuel_electric))
-            if(cbDiesel.isChecked) selectedFuel.add(getString(R.string.fuel_diesel))
-            if(cbCNG.isChecked) selectedFuel.add(getString(R.string.fuel_cng))
-
+        fuelViewBinding.btnApplyFuelType.setOnClickListener {
+            val selectedFuel = checkBoxes.filter { it.first.isChecked }.map { it.second }
+            if (selectedFuel.isEmpty()) {
+                Toast.makeText(requireContext(), "Please select at least 1 fuel type", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             val filtered = vehicles.filter { it.fuelType in selectedFuel }
-            onFiltered(if(filtered.isEmpty()) emptyList() else filtered)
+            onFiltered(filtered)
             dismiss()
         }
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
+
 
