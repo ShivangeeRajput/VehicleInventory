@@ -243,17 +243,6 @@
                 android:layout_weight="1"
                 tools:listitem="@layout/item_vehicle" />
 
-            <TextView
-                android:id="@+id/tvNoVehiclesFound"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Oops... No vehicles found"
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:gravity="center"
-                android:visibility="gone"
-                android:fontFamily="@font/satoshi_medium"/>
-
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/NoVehicles"
                 android:layout_width="match_parent"

@@ -48,6 +48,9 @@ class HomeFragment : Fragment() {
                 binding.tvTotalVehicles.text = vehicles.size.toString()
                 val totalEv = vehicles.count { it.fuelType.equals("Electric", true) }
                 binding.tvTotalEv.text = totalEv.toString()
+
+                binding.NoVehicles.visibility = if (vehicles.isEmpty()) View.VISIBLE else View.GONE
+                binding.rvVehicles.visibility = if (vehicles.isEmpty()) View.GONE else View.VISIBLE
             }
         }
 
@@ -63,13 +66,12 @@ class HomeFragment : Fragment() {
                     binding.tvTotalVehicles.text = filteredVehicles.size.toString()
                     val totalEv = filteredVehicles.count { it.fuelType.equals("Electric", true) }
                     binding.tvTotalEv.text = totalEv.toString()
-                    binding.NoVehicles.visibility = if(filteredVehicles.isEmpty()) View.VISIBLE else View.GONE
-                    binding.tvNoVehiclesFound.visibility = if(filteredVehicles.isEmpty()) View.VISIBLE else View.GONE
+                    binding.NoVehicles.visibility = if (filteredVehicles.isEmpty()) View.VISIBLE else View.GONE
+                    binding.rvVehicles.visibility = if (filteredVehicles.isEmpty()) View.GONE else View.VISIBLE
                 }
             )
             filterSheet.show(parentFragmentManager, "FilterBottomSheet")
         }
-
     }
 
     override fun onDestroyView() {
@@ -77,5 +79,6 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 }
+
 
 
