@@ -30,18 +30,15 @@ class OptionAdapter(
                 binding.imgIcon.visibility = View.GONE
             }
 
-            // radio icon - filled when selected, empty when not selected
             binding.imgSelected.setImageResource(
                 if (isSelected) R.drawable.ic_radio_checked else R.drawable.ic_radio_unchecked
             )
 
-            // background - blue border when selected, gray border when not selected
             binding.root.background = ContextCompat.getDrawable(
                 binding.root.context,
                 if (isSelected) R.drawable.bg_option_selected else R.drawable.bg_option_unselected
             )
 
-            // Add margin between items
             val layoutParams = binding.root.layoutParams as RecyclerView.LayoutParams
             if (adapterPosition == 0) {
                 layoutParams.topMargin = 16.dpToPx()
@@ -51,7 +48,6 @@ class OptionAdapter(
             layoutParams.bottomMargin = 8.dpToPx()
             binding.root.layoutParams = layoutParams
 
-            // click listener
             binding.root.setOnClickListener {
                 val previousPos = selectedPosition
                 val currentPos = adapterPosition

@@ -28,7 +28,6 @@ class VehicleAdapter : RecyclerView.Adapter<VehicleAdapter.VehicleViewHolder>() 
             binding.tvFuelType.text = vehicle.fuelType
             binding.tvYear.text = vehicle.yearOfPurchase?.toString() ?: "-"
 
-            // Optional: calculate duration
             vehicle.yearOfPurchase?.let {
                 val years = Calendar.getInstance().get(Calendar.YEAR) - it
                 binding.tvDuration.text = "$years years old"

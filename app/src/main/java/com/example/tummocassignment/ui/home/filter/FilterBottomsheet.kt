@@ -60,19 +60,18 @@ class FilterBottomSheet(
 
         brandView.findViewById<MaterialButton>(R.id.btnApplyBrand).setOnClickListener {
             val selectedBrands = mutableListOf<String>()
-            if(cbTata.isChecked) selectedBrands.add("Tata")
-            if(cbHonda.isChecked) selectedBrands.add("Honda")
-            if(cbHero.isChecked) selectedBrands.add("Hero")
-            if(cbBajaj.isChecked) selectedBrands.add("Bajaj")
-            if(cbYamaha.isChecked) selectedBrands.add("Yamaha")
-            if(cbOther.isChecked) selectedBrands.add("Other")
+            if(cbTata.isChecked) selectedBrands.add(getString(R.string.brand_tata))
+            if(cbHonda.isChecked) selectedBrands.add(getString(R.string.brand_honda))
+            if(cbHero.isChecked) selectedBrands.add(getString(R.string.brand_hero))
+            if(cbBajaj.isChecked) selectedBrands.add(getString(R.string.brand_bajaj))
+            if(cbYamaha.isChecked) selectedBrands.add(getString(R.string.brand_yamaha))
+            if(cbOther.isChecked) selectedBrands.add(getString(R.string.brand_other))
 
             val filtered = if(selectedBrands.isEmpty()) vehicles else vehicles.filter { it.brand in selectedBrands }
             onFiltered(filtered)
             dismiss()
         }
     }
-
 
     private fun showFuelTypeSelection() {
         val fuelView = layoutInflater.inflate(R.layout.filter_fueltype, null)
@@ -95,10 +94,10 @@ class FilterBottomSheet(
 
         fuelView.findViewById<MaterialButton>(R.id.btnApplyFuelType).setOnClickListener {
             val selectedFuel = mutableListOf<String>()
-            if(cbPetrol.isChecked) selectedFuel.add("Petrol")
-            if(cbElectric.isChecked) selectedFuel.add("Electric")
-            if(cbDiesel.isChecked) selectedFuel.add("Diesel")
-            if(cbCNG.isChecked) selectedFuel.add("CNG")
+            if(cbPetrol.isChecked) selectedFuel.add(getString(R.string.fuel_petrol))
+            if(cbElectric.isChecked) selectedFuel.add(getString(R.string.fuel_electric))
+            if(cbDiesel.isChecked) selectedFuel.add(getString(R.string.fuel_diesel))
+            if(cbCNG.isChecked) selectedFuel.add(getString(R.string.fuel_cng))
 
             val filtered = vehicles.filter { it.fuelType in selectedFuel }
             onFiltered(if(filtered.isEmpty()) emptyList() else filtered)
@@ -106,3 +105,4 @@ class FilterBottomSheet(
         }
     }
 }
+

@@ -1,6 +1,41 @@
 <resources>
-    <string name="app_name">TummocAssignment</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="model_brand">Model &amp; Brand</string>
+        <string name="app_name">TummocAssignment</string>
+        <string name="hello_blank_fragment">Hello blank fragment</string>
+        <string name="model_brand">Model &amp; Brand</string>
+
+        <string name="brand_tata">Tata</string>
+        <string name="brand_honda">Honda</string>
+        <string name="brand_hero">Hero</string>
+        <string name="brand_bajaj">Bajaj</string>
+        <string name="brand_yamaha">Yamaha</string>
+        <string name="brand_other">Other</string>
+
+        <string name="model_activa_4g">Activa 4G</string>
+        <string name="model_activa_5g">Activa 5G</string>
+        <string name="model_activa_6g">Activa 6G</string>
+        <string name="model_activa_125">Activa 125</string>
+        <string name="model_activa_125_bs6">Activa 125 BS6</string>
+        <string name="model_activa_h_smart">Activa H-Smart</string>
+
+        <string name="fuel_petrol">Petrol</string>
+        <string name="fuel_electric">Electric</string>
+        <string name="fuel_diesel">Diesel</string>
+        <string name="fuel_cng">CNG</string>
+
+        <string name="btn_clear_brand">Clear</string>
+        <string name="btn_apply_brand">Apply</string>
+        <string name="btn_clear_fuel">Clear</string>
+        <string name="btn_apply_fuel">Apply</string>
+
+        <string name="filter_brand_title">Select Brand</string>
+        <string name="filter_fuel_title">Select Fuel Type</string>
+
+    <string name="select_brand_title">Select Vehicle Brand</string>
+    <string name="select_model_title">Select Vehicle Model</string>
+    <string name="select_fuel_title">Select Fuel Type</string>
+
+    <string name="error_fill_all_fields">Please fill all required fields</string>
+    <string name="vehicle_added_success">Vehicle added successfully!</string>
+    <string name="vehicle_add_failed">Failed to add vehicle!</string>
 
 </resources>

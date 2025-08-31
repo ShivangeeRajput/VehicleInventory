@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             tools:text="Activa 4G"
             android:textStyle="bold"
-            android:fontFamily="@font/satoshi_regular"
+            android:fontFamily="@font/satoshi_bold"
             android:textSize="14sp"
             android:textColor="@color/black"/>
 
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Honda"
-            android:fontFamily="@font/satoshi_regular"
+            android:fontFamily="@font/satoshi_medium"
             android:textSize="12sp"
             android:textColor="@color/light_black"/>
     </LinearLayout>
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         tools:text="KA 01 AA 0007"
-        android:fontFamily="@font/satoshi_regular"
+        android:fontFamily="@font/satoshi_bold"
         android:textColor="@color/text_blue"
         android:textSize="14sp"/>
 
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         tools:text="Petrol"
-        android:fontFamily="@font/satoshi_regular"
+        android:fontFamily="@font/satoshi_bold"
         android:textSize="14sp"
         android:textColor="@color/black"/>
 
@@ -64,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="2018"
-            android:fontFamily="@font/satoshi_regular"
+            android:fontFamily="@font/satoshi_bold"
             android:textStyle="bold"
             android:textSize="14sp"
             android:textColor="@color/black"/>
@@ -74,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="7 years 6 months"
-            android:fontFamily="@font/satoshi_regular"
+            android:fontFamily="@font/satoshi_medium"
             android:textSize="12sp"
             android:textColor="@color/light_black"/>
     </LinearLayout>

@@ -27,77 +27,99 @@ class AddVehicleFragment : Fragment() {
     @Inject
     lateinit var vehicleRepository: VehicleRepository
 
-    private val brands = listOf(
-        OptionAdapter.OptionItem("Tata", R.drawable.ic_tata),
-        OptionAdapter.OptionItem("Honda", R.drawable.honda),
-        OptionAdapter.OptionItem("Hero", R.drawable.ic_hero),
-        OptionAdapter.OptionItem("Bajaj", R.drawable.ic_bajaj),
-        OptionAdapter.OptionItem("Yamaha", R.drawable.ic_yamaha),
-        OptionAdapter.OptionItem("Other", R.drawable.ic_car),
-    )
+    // Initialize lazily to safely use getString()
+    private val brands by lazy {
+        listOf(
+            OptionAdapter.OptionItem(getString(R.string.brand_tata), R.drawable.ic_tata),
+            OptionAdapter.OptionItem(getString(R.string.brand_honda), R.drawable.honda),
+            OptionAdapter.OptionItem(getString(R.string.brand_hero), R.drawable.ic_hero),
+            OptionAdapter.OptionItem(getString(R.string.brand_bajaj), R.drawable.ic_bajaj),
+            OptionAdapter.OptionItem(getString(R.string.brand_yamaha), R.drawable.ic_yamaha),
+            OptionAdapter.OptionItem(getString(R.string.brand_other), R.drawable.ic_car)
+        )
+    }
 
-    private val models = listOf(
-        OptionAdapter.OptionItem("Activa 4G"),
-        OptionAdapter.OptionItem("Activa 5G"),
-        OptionAdapter.OptionItem("Activa 6G"),
-        OptionAdapter.OptionItem("Activa 125"),
-        OptionAdapter.OptionItem("Activa 125 BS6"),
-        OptionAdapter.OptionItem("Activa H-Smart")
-    )
+    private val models by lazy {
+        listOf(
+            OptionAdapter.OptionItem(getString(R.string.model_activa_4g)),
+            OptionAdapter.OptionItem(getString(R.string.model_activa_5g)),
+            OptionAdapter.OptionItem(getString(R.string.model_activa_6g)),
+            OptionAdapter.OptionItem(getString(R.string.model_activa_125)),
+            OptionAdapter.OptionItem(getString(R.string.model_activa_125_bs6)),
+            OptionAdapter.OptionItem(getString(R.string.model_activa_h_smart))
+        )
+    }
 
-    private val fuelTypes = listOf(
-        OptionAdapter.OptionItem("Petrol"),
-        OptionAdapter.OptionItem("Electric"),
-        OptionAdapter.OptionItem("Diesel"),
-        OptionAdapter.OptionItem("CNG")
-    )
+    private val fuelTypes by lazy {
+        listOf(
+            OptionAdapter.OptionItem(getString(R.string.fuel_petrol)),
+            OptionAdapter.OptionItem(getString(R.string.fuel_electric)),
+            OptionAdapter.OptionItem(getString(R.string.fuel_diesel)),
+            OptionAdapter.OptionItem(getString(R.string.fuel_cng))
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddVehicleBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         setupDropdowns()
+        setupDropdownIcons()
 
-        binding.btnAddVehicle.setOnClickListener {
-            saveVehicle()
-        }
+        binding.btnAddVehicle.setOnClickListener { saveVehicle() }
 
         binding.ivBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
-
-        return binding.root
     }
 
     private fun setupDropdowns() {
-        binding.dropdownBrand.setOnClickListener {
-            SelectOptionBottomSheet(
-                title = "Select Vehicle Brand",
-                options = brands
-            ) { selected ->
-                binding.dropdownBrand.setText(selected)
-            }.show(parentFragmentManager, "brandSheet")
-        }
+        binding.dropdownBrand.setOnClickListener { showBrandSelection() }
+        binding.dropdownModel.setOnClickListener { showModelSelection() }
+        binding.dropdownFuelType.setOnClickListener { showFuelTypeSelection() }
+    }
 
-        binding.dropdownModel.setOnClickListener {
-            SelectOptionBottomSheet(
-                title = "Select Vehicle Model",
-                options = models
-            ) { selected ->
-                binding.dropdownModel.setText(selected)
-            }.show(parentFragmentManager, "modelSheet")
-        }
+    private fun setupDropdownIcons() {
+        binding.brandInputLayout.setEndIconOnClickListener { showBrandSelection() }
+        binding.modelInputLayout.setEndIconOnClickListener { showModelSelection() }
+        binding.fuelInputLayout.setEndIconOnClickListener { showFuelTypeSelection() }
+    }
 
-        binding.dropdownFuelType.setOnClickListener {
-            SelectOptionBottomSheet(
-                title = "Select Fuel Type",
-                options = fuelTypes
-            ) { selected ->
-                binding.dropdownFuelType.setText(selected)
-            }.show(parentFragmentManager, "fuelTypeSheet")
-        }
+    private fun showBrandSelection() {
+        SelectOptionBottomSheet(
+            title = getString(R.string.select_brand_title),
+            options = brands
+        ) { selected ->
+            binding.dropdownBrand.setText(selected)
+            binding.brandInputLayout.isHintAnimationEnabled = true
+        }.show(parentFragmentManager, "brandSheet")
+    }
+
+    private fun showModelSelection() {
+        SelectOptionBottomSheet(
+            title = getString(R.string.select_model_title),
+            options = models
+        ) { selected ->
+            binding.dropdownModel.setText(selected)
+            binding.modelInputLayout.isHintAnimationEnabled = true
+        }.show(parentFragmentManager, "modelSheet")
+    }
+
+    private fun showFuelTypeSelection() {
+        SelectOptionBottomSheet(
+            title = getString(R.string.select_fuel_title),
+            options = fuelTypes
+        ) { selected ->
+            binding.dropdownFuelType.setText(selected)
+            binding.fuelInputLayout.isHintAnimationEnabled = true
+        }.show(parentFragmentManager, "fuelTypeSheet")
     }
 
     private fun saveVehicle() {
@@ -107,11 +129,10 @@ class AddVehicleFragment : Fragment() {
         val number = binding.inputVehicleNumber.text.toString().trim()
         val yearText = binding.dropdownYear.text.toString().trim()
         val ownerName = binding.inputOwnerName.text.toString().trim()
-
         val year = yearText.toIntOrNull()
 
         if (brand.isBlank() || model.isBlank() || fuelType.isBlank() || number.isBlank() || year == null) {
-            Toast.makeText(requireContext(), "Please fill all required fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.error_fill_all_fields), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -126,14 +147,13 @@ class AddVehicleFragment : Fragment() {
             )
 
             val vehicle = VehicleMapper.fromEntity(entity)
-
             val id = vehicleRepository.addVehicle(vehicle)
 
             if (id > 0) {
-                Toast.makeText(requireContext(), "Vehicle added successfully!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.vehicle_added_success), Toast.LENGTH_SHORT).show()
                 parentFragmentManager.popBackStack()
             } else {
-                Toast.makeText(requireContext(), "Failed to add vehicle!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.vehicle_add_failed), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -143,8 +163,3 @@ class AddVehicleFragment : Fragment() {
         _binding = null
     }
 }
-
-
-
-
-
