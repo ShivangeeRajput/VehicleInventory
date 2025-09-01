@@ -1,73 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@drawable/bg_bottomsheet_rounded"
-    android:padding="20dp">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/tvFilterTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Filter"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:fontFamily="@font/satoshi_bold"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true" />
-
-        <ImageView
-            android:id="@+id/ivCloseFilter"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_close"
-            android:contentDescription="Close"
-            android:clickable="true"
-            android:focusable="true"/>
-    </RelativeLayout>
+    android:background="@drawable/bg_bottomsheet_rounded">
 
     <LinearLayout
-        android:id="@+id/brandOption"
+        android:id="@+id/mainFilterView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingVertical="15dp"
-        android:background="?attr/selectableItemBackground">
+        android:orientation="vertical"
+        android:padding="20dp">
 
-        <TextView
-            android:layout_width="0dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvFilterTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filter"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:fontFamily="@font/satoshi_bold"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true" />
+
+            <ImageView
+                android:id="@+id/ivCloseFilter"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_close"
+                android:contentDescription="Close"
+                android:clickable="true"
+                android:focusable="true"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/brandOption"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Brand"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"
-            android:fontFamily="@font/satoshi_medium" />
+            android:orientation="horizontal"
+            android:paddingVertical="15dp"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Brand"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:fontFamily="@font/satoshi_medium" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/right_arrow"
+                android:contentDescription="Select Brand"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fuelTypeOption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="15dp"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Fuel Type"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:fontFamily="@font/satoshi_medium" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/right_arrow"
+                android:contentDescription="Select Fuel Type"/>
+        </LinearLayout>
+
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/fuelTypeOption"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingVertical="15dp"
-        android:background="?attr/selectableItemBackground">
+    <include
+        android:id="@+id/brandSelectionView"
+        layout="@layout/filter_brand"
+        android:visibility="gone" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Fuel Type"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"
-            android:fontFamily="@font/satoshi_medium" />
-    </LinearLayout>
+    <include
+        android:id="@+id/fuelTypeSelectionView"
+        layout="@layout/filter_fueltype"
+        android:visibility="gone" />
 
-</LinearLayout>
+</FrameLayout>

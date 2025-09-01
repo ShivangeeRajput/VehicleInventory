@@ -1,4 +1,4 @@
-package com.example.tummocassignment.ui.addvehicle.adapter
+package com.example.tummocassignment.ui.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

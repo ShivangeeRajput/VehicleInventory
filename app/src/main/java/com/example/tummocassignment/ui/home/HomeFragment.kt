@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tummocassignment.R
 import com.example.tummocassignment.databinding.FragmentHomeBinding
 import com.example.tummocassignment.domain.repository.VehicleRepository
-import com.example.tummocassignment.ui.addvehicle.adapter.VehicleAdapter
+import com.example.tummocassignment.ui.home.adapter.VehicleAdapter
 import com.example.tummocassignment.ui.home.filter.FilterBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.count

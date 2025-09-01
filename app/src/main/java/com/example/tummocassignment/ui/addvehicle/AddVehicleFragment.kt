@@ -195,9 +195,10 @@ class AddVehicleFragment : Fragment() {
         val fuelType = binding.dropdownFuelType.text.toString().trim()
         val number = binding.inputVehicleNumber.text.toString().trim()
         val year = binding.dropdownYear.text.toString().trim()
+        val ownerName = binding.inputOwnerName.text.toString().trim()
 
         val enabled = brand.isNotEmpty() && model.isNotEmpty() && fuelType.isNotEmpty()
-                && number.isNotEmpty() && year.isNotEmpty()
+                && number.isNotEmpty() && year.isNotEmpty() && ownerName.isNotEmpty()
 
         binding.btnAddVehicle.isEnabled = enabled
 
