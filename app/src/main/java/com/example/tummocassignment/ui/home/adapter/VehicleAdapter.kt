@@ -11,11 +11,16 @@ import java.util.Calendar
 class VehicleAdapter : RecyclerView.Adapter<VehicleAdapter.VehicleViewHolder>() {
 
     private val vehicles = mutableListOf<Vehicle>()
+    private var onVehicleLongClick: ((Vehicle) -> Unit)? = null
 
     fun submitList(list: List<Vehicle>) {
         vehicles.clear()
         vehicles.addAll(list)
         notifyDataSetChanged()
+    }
+
+    fun setOnVehicleLongClickListener(listener: (Vehicle) -> Unit) {
+        onVehicleLongClick = listener
     }
 
     inner class VehicleViewHolder(private val binding: ItemVehicleBinding) :
@@ -31,6 +36,11 @@ class VehicleAdapter : RecyclerView.Adapter<VehicleAdapter.VehicleViewHolder>() 
             vehicle.yearOfPurchase?.let {
                 val years = Calendar.getInstance().get(Calendar.YEAR) - it
                 binding.tvDuration.text = "$years years old"
+            }
+
+            binding.root.setOnLongClickListener {
+                onVehicleLongClick?.invoke(vehicle)
+                true
             }
         }
     }

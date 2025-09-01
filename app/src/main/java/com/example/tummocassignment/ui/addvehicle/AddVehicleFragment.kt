@@ -13,6 +13,7 @@ import com.example.tummocassignment.R
 import com.example.tummocassignment.data.local.entity.VehicleEntity
 import com.example.tummocassignment.data.mapper.VehicleMapper
 import com.example.tummocassignment.databinding.FragmentAddVehicleBinding
+import com.example.tummocassignment.domain.model.Vehicle
 import com.example.tummocassignment.domain.repository.VehicleRepository
 import com.example.tummocassignment.ui.addvehicle.bottomsheet.SelectOptionBottomSheet
 import com.example.tummocassignment.ui.addvehicle.bottomsheet.adapter.OptionAdapter
@@ -60,6 +61,8 @@ class AddVehicleFragment : Fragment() {
         )
     }
 
+    private var vehicleToUpdate: Vehicle? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -71,6 +74,12 @@ class AddVehicleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        vehicleToUpdate = arguments?.getParcelable<Vehicle>("vehicle")
+        vehicleToUpdate?.let { vehicle ->
+            populateForm(vehicle)
+            binding.btnAddVehicle.text = "Update Vehicle"
+        }
+
         setupDropdowns()
         setupDropdownIcons()
         binding.inputVehicleNumber.filters = arrayOf<InputFilter>(InputFilter.AllCaps())
@@ -78,22 +87,26 @@ class AddVehicleFragment : Fragment() {
         updateButtonState()
 
         binding.btnAddVehicle.setOnClickListener {
-            val brand = binding.dropdownBrand.text.toString().trim()
-            val model = binding.dropdownModel.text.toString().trim()
-            val fuelType = binding.dropdownFuelType.text.toString().trim()
-            val number = binding.inputVehicleNumber.text.toString().trim()
-            val yearText = binding.dropdownYear.text.toString().trim()
-
-            if (brand.isEmpty() || model.isEmpty() || fuelType.isEmpty() || number.isEmpty() || yearText.isEmpty()) {
-                Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+            if (vehicleToUpdate != null) {
+                updateVehicle()
+            } else {
+                saveVehicle()
             }
-
-            saveVehicle()
         }
 
         binding.ivBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+    }
+
+    private fun populateForm(vehicle: Vehicle) {
+        binding.dropdownBrand.setText(vehicle.brand)
+        binding.dropdownModel.setText(vehicle.model)
+        binding.dropdownFuelType.setText(vehicle.fuelType)
+        binding.inputVehicleNumber.setText(vehicle.vehicleNumber)
+        binding.inputOwnerName.setText(vehicle.ownerName)
+        vehicle.yearOfPurchase?.let {
+            binding.dropdownYear.setText(it.toString())
         }
     }
 
@@ -143,6 +156,30 @@ class AddVehicleFragment : Fragment() {
     }
 
     private fun saveVehicle() {
+        val vehicle = createVehicleFromForm()
+        lifecycleScope.launch {
+            val id = vehicleRepository.addVehicle(vehicle)
+            if (id > 0) {
+                Toast.makeText(requireContext(), getString(R.string.vehicle_added_success), Toast.LENGTH_SHORT).show()
+                parentFragmentManager.popBackStack()
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.vehicle_add_failed), Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun updateVehicle() {
+        val updatedVehicle = createVehicleFromForm().copy(
+            id = vehicleToUpdate?.id ?: 0
+        )
+        lifecycleScope.launch {
+            vehicleRepository.updateVehicle(updatedVehicle)
+            Toast.makeText(requireContext(), "Vehicle updated successfully", Toast.LENGTH_SHORT).show()
+            parentFragmentManager.popBackStack()
+        }
+    }
+
+    private fun createVehicleFromForm(): Vehicle {
         val brand = binding.dropdownBrand.text.toString().trim()
         val model = binding.dropdownModel.text.toString().trim()
         val fuelType = binding.dropdownFuelType.text.toString().trim()
@@ -151,31 +188,14 @@ class AddVehicleFragment : Fragment() {
         val ownerName = binding.inputOwnerName.text.toString().trim()
         val year = yearText.toIntOrNull()
 
-        if (brand.isBlank() || model.isBlank() || fuelType.isBlank() || number.isBlank() || year == null) {
-            Toast.makeText(requireContext(), getString(R.string.error_fill_all_fields), Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        lifecycleScope.launch {
-            val entity = VehicleEntity(
-                brand = brand,
-                model = model,
-                fuelType = fuelType,
-                vehicleNumber = number,
-                yearOfPurchase = year,
-                ownerName = ownerName
-            )
-
-            val vehicle = VehicleMapper.fromEntity(entity)
-            val id = vehicleRepository.addVehicle(vehicle)
-
-            if (id > 0) {
-                Toast.makeText(requireContext(), getString(R.string.vehicle_added_success), Toast.LENGTH_SHORT).show()
-                parentFragmentManager.popBackStack()
-            } else {
-                Toast.makeText(requireContext(), getString(R.string.vehicle_add_failed), Toast.LENGTH_SHORT).show()
-            }
-        }
+        return Vehicle(
+            brand = brand,
+            model = model,
+            fuelType = fuelType,
+            vehicleNumber = number,
+            yearOfPurchase = year,
+            ownerName = ownerName
+        )
     }
 
     private fun setupInputValidation() {

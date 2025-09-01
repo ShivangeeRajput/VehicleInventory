@@ -16,7 +16,7 @@ object VehicleMapper {
     )
 
     fun toEntity(v: Vehicle) = VehicleEntity(
-        id = v.id,
+        id = v.id ?: 0,
         brand = v.brand,
         model = v.model,
         fuelType = v.fuelType,

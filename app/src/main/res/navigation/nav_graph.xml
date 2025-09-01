@@ -16,10 +16,16 @@
             app:destination="@id/addVehicleFragment" />
     </fragment>
 
-
     <fragment
         android:id="@+id/addVehicleFragment"
         android:name="com.example.tummocassignment.ui.addvehicle.AddVehicleFragment"
         android:label="Add Vehicle"
-        tools:layout="@layout/fragment_add_vehicle" />
+        tools:layout="@layout/fragment_add_vehicle" >
+
+        <argument
+            android:name="vehicle"
+            app:argType="com.example.tummocassignment.domain.model.Vehicle"
+            android:defaultValue="@null" />
+
+    </fragment>
 </navigation>
